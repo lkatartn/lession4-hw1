@@ -53,7 +53,7 @@
 						} else {
 							return false;
 						}
-					}, false)
+					}, true)
 		}
 
 		window.onload = function(){
@@ -136,15 +136,18 @@
 				} else {
 					if (initial===undefined) {
 						initial = arr[0];
+						if (arr.length==1) {
+							return initial;
+						}
 					};
-					return reducer(arr, callback, initial, 0); 
+					return reducer(arr, callback, initial, 1); 
 				}
 				function reducer(arr, callback, accum, position) {
 					if (position===arr.length-1) {
-						return callback(accum, arr[position])
+						return callback(accum, arr[position], position, arr)
 					} else {
 						return reducer(arr, callback, 
-							callback(accum, arr[position]),
+							callback(accum, arr[position], position, arr),
 							position+1)
 					}
 				};
