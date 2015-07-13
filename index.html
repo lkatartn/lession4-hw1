@@ -111,6 +111,13 @@
 				return man.name.toUpperCase() + " is " + man.age + " year old and his phone# is " + man.phone;
 			}
 
+			//Changing default reduce function to my own
+			//and now those tests are using my reduce function
+			Array.prototype.reduce = function (callback, initial){
+				console.log('This is my awesome reduce function');
+				return myReduce(this, callback, initial);
+			}
+
 			// Test forEach
 			forEach(people, function(man, i, arr) {
 				console.log(man.name)
@@ -120,6 +127,28 @@
 			console.log(filter(people, isAdult));
 			console.log(some(people, isAdult));
 			console.log(every(people, isAdult));
+
+			//My awesome reduce function
+
+			function myReduce(arr, callback, initial) {
+				if (arr.length==0) {
+					return initial;
+				} else {
+					if (initial===undefined) {
+						initial = arr[0];
+					};
+					return reducer(arr, callback, initial, 0); 
+				}
+				function reducer(arr, callback, accum, position) {
+					if (position===arr.length-1) {
+						return callback(accum, arr[position])
+					} else {
+						return reducer(arr, callback, 
+							callback(accum, arr[position]),
+							position+1)
+					}
+				};
+			}
 		}
 	</script>
 </head>
